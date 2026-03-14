@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>视频片段镜像工具</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="left-panel">
+      <div class="sidebar-tabs">
+        <button type="button" class="sidebar-tab active" data-tab="video" id="tabVideo">
+          <span class="sidebar-tab-icon">🎬</span>
+          <span>视频</span>
+        </button>
+        <button type="button" class="sidebar-tab" data-tab="person" id="tabPerson">
+          <span class="sidebar-tab-icon">👤</span>
+          <span>人物</span>
+        </button>
+        <button type="button" class="sidebar-tab" data-tab="settings" id="tabSettings">
+          <span class="sidebar-tab-icon">⚙</span>
+          <span>设置</span>
+        </button>
+      </div>
+
+      <div id="panelVideo" class="sidebar-panel">
+        <input type="file" id="fileInput" accept="video/*" style="display: none" />
+        <div class="preview-area preview-area-spaced">
+          <div class="preview-canvas" id="videoDropZone">
+            <div class="video-preview-inner">
+              <video id="video" preload="metadata" class="hidden"></video>
+            </div>
+            <div id="previewPlaceholder" class="preview-placeholder">
+              <span class="preview-placeholder-icon">▶</span>
+              <span>点击上传视频</span>
+            </div>
+          </div>
+          <div class="preview-controls">
+            <span id="timeLabel" class="preview-time">0:00 / 0:00</span>
+            <div class="preview-controls-right">
+              <button type="button" class="ant-btn ant-btn-text ant-btn-icon" id="btnMute" title="静音">
+                <span id="volumeIcon">🔊</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="panelPerson" class="sidebar-panel hidden">
+        <input type="file" id="filePerson" accept="image/*" style="display: none" />
+        <div class="person-upload-area" id="personDropZone">
+          <img id="personImage" class="person-image hidden" alt="人物" />
+          <div id="personPlaceholder" class="preview-placeholder">
+            <span class="preview-placeholder-icon">👤</span>
+            <span>点击上传人物正面图</span>
+          </div>
+        </div>
+      </div>
+
+      <div id="panelSettings" class="sidebar-panel hidden">
+        <div class="sidebar-panel-title">阿里云百炼</div>
+        <div class="sidebar-caption">设置 APPKEY，用于调用百炼服务</div>
+        <label class="settings-label">APPKEY</label>
+        <input type="password" class="ant-input settings-input" id="inputAppkey" placeholder="请输入阿里云百炼 APPKEY" autocomplete="off" />
+        <button type="button" class="ant-btn ant-btn-primary ant-btn-block" id="btnSaveAppkey">保存</button>
+      </div>
+    </aside>
+
+    <main class="right-panel">
+      <section class="timeline-section">
+        <div class="timeline-header">
+          <span id="visibleRange" class="timeline-range"></span>
+          <span id="timelineHint" class="timeline-hint">时间轴：点击选中当前位置(白线)，点击设入点</span>
+          <div class="timeline-zoom">
+            <button type="button" class="timeline-zoom-btn" id="btnZoomOut" title="缩小">−</button>
+            <div class="timeline-zoom-slider" id="zoomSlider">
+              <div class="timeline-zoom-track">
+                <div class="timeline-zoom-fill" id="zoomFill"></div>
+                <div class="timeline-zoom-knob" id="zoomKnob"></div>
+              </div>
+            </div>
+            <button type="button" class="timeline-zoom-btn" id="btnZoomIn" title="放大">+</button>
+          </div>
+        </div>
+        <div class="timeline-anchor-wrap" id="timelineAnchorWrap">
+          <div class="timeline-ruler" id="timelineRuler" title="点击设置缩放锚点（白线）"></div>
+          <div class="timeline-scale-wrap">
+            <canvas id="timelineScaleCanvas" class="timeline-scale-canvas"></canvas>
+          </div>
+          <div class="timeline-wrap" id="timelineWrap">
+            <canvas id="timelineCanvas"></canvas>
+          </div>
+          <div id="playhead" class="playhead"></div>
+        </div>
+      </section>
+
+      <section class="segments-section">
+        <ul id="segmentList" class="segment-list"></ul>
+        <div class="process-row">
+          <button type="button" class="ant-btn ant-btn-primary" id="btnProcess" disabled>执行镜像处理（下载结果）</button>
+          <div id="progressWrap" class="progress-wrap hidden">
+            <span id="progressText">处理中，请稍候…</span>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

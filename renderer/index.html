@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>视频片段镜像工具</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="toolbar">
+      <button type="button" id="btnOpen">选择视频</button>
+      <span id="videoLabel">未选择视频</span>
+    </header>
+
+    <section class="preview-section">
+      <div class="preview-wrap">
+        <video id="video" controls></video>
+        <div id="previewPlaceholder">请选择视频</div>
+      </div>
+    </section>
+
+    <section class="timeline-section">
+      <div class="timeline-header">
+        <span id="timeLabel">0:00 / 0:00</span>
+        <span id="visibleRange"></span>
+        <span id="timelineHint" class="timeline-hint">时间轴：悬停预览，点击设入点</span>
+      </div>
+      <div class="timeline-wrap" id="timelineWrap">
+        <canvas id="timelineCanvas"></canvas>
+        <div id="playhead" class="playhead"></div>
+      </div>
+    </section>
+
+    <section class="segments-section">
+      <div class="segments-header">
+        <span>镜像片段（将对这些区间做左右镜像）</span>
+        <div class="add-by-time">
+          <label>开始 <input type="number" id="inputStart" step="0.01" min="0" value="0" /> 秒</label>
+          <label>结束 <input type="number" id="inputEnd" step="0.01" min="0" value="1" /> 秒</label>
+          <button type="button" id="btnAddSegment">添加片段</button>
+        </div>
+      </div>
+      <ul id="segmentList"></ul>
+      <div class="process-row">
+        <button type="button" id="btnProcess" disabled>执行镜像处理（覆盖原视频）</button>
+        <div id="progressWrap" class="progress-wrap hidden">
+          <div id="progressBar" class="progress-bar"><div class="inner"></div></div>
+          <span id="progressText">0%</span>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

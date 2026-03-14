@@ -1,0 +1,639 @@
+/* Ant Design 风格变量（深色主题） */
+:root {
+  --ant-primary: #1677ff;
+  --ant-primary-hover: #4096ff;
+  --ant-primary-active: #0958d9;
+  --ant-color-bg-container: #141414;
+  --ant-color-bg-elevated: #1f1f1f;
+  --ant-color-bg-layout: #1a1a1a;
+  --ant-color-border: #424242;
+  --ant-color-border-secondary: #303030;
+  --ant-color-text: rgba(255, 255, 255, 0.88);
+  --ant-color-text-secondary: rgba(255, 255, 255, 0.65);
+  --ant-color-text-tertiary: rgba(255, 255, 255, 0.45);
+  --ant-radius: 6px;
+  --ant-radius-sm: 4px;
+  --ant-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--ant-font);
+  font-size: 14px;
+  background: var(--ant-color-bg-container);
+  color: var(--ant-color-text);
+  line-height: 1.5715;
+}
+
+.app {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ========== 左侧：上传与预览 ========== */
+.left-panel {
+  width: 42%;
+  min-width: 320px;
+  max-width: 560px;
+  flex-shrink: 0;
+  background: var(--ant-color-bg-elevated);
+  border-right: 1px solid var(--ant-color-border-secondary);
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-tabs {
+  display: flex;
+  padding: 12px 20px 0;
+  gap: 4px;
+  border-bottom: 1px solid var(--ant-color-border-secondary);
+  flex-shrink: 0;
+}
+
+.sidebar-tab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 12px;
+  font-size: 13px;
+  color: var(--ant-color-text-secondary);
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: color .2s, border-color .2s;
+  font-family: var(--ant-font);
+}
+
+.sidebar-tab:hover {
+  color: var(--ant-color-text);
+}
+
+.sidebar-tab.active {
+  color: var(--ant-primary);
+  border-bottom-color: var(--ant-primary);
+}
+
+.sidebar-tab-icon {
+  font-size: 16px;
+}
+
+.sidebar-panel {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.sidebar-panel.hidden {
+  display: none !important;
+}
+
+.sidebar-panel-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ant-color-text);
+  padding: 16px 20px 4px;
+}
+
+.preview-area {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: #000;
+  padding: 16px;
+}
+
+.left-panel .preview-canvas {
+  flex: 1;
+  min-height: 160px;
+  cursor: pointer;
+}
+
+.sidebar-caption {
+  padding: 0 20px 12px;
+  font-size: 12px;
+  color: var(--ant-color-text-secondary);
+}
+
+.left-panel .ant-btn-block {
+  margin: 0 20px 12px;
+}
+
+/* 人物上传区：点击上传，上传后直接显示图片 */
+.person-upload-area {
+  flex: 1;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  cursor: pointer;
+  position: relative;
+  background: var(--ant-color-bg-layout);
+}
+
+.person-upload-area .person-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.person-upload-area .person-image.hidden {
+  display: none !important;
+}
+
+.person-upload-area .preview-placeholder {
+  margin: 0;
+  border: 2px dashed var(--ant-color-border);
+  background: var(--ant-color-bg-elevated);
+  min-width: 180px;
+  min-height: 140px;
+}
+
+/* ========== Ant Design 按钮 ========== */
+.ant-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 4px 15px;
+  font-size: 14px;
+  font-family: var(--ant-font);
+  line-height: 1.5715;
+  border-radius: var(--ant-radius-sm);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all .2s;
+  outline: none;
+}
+
+.ant-btn-primary {
+  color: #fff;
+  background: var(--ant-primary);
+  border-color: var(--ant-primary);
+}
+
+.ant-btn-primary:hover:not(:disabled) {
+  color: #fff;
+  background: var(--ant-primary-hover);
+  border-color: var(--ant-primary-hover);
+}
+
+.ant-btn-primary:disabled {
+  color: rgba(255,255,255,0.5);
+  background: var(--ant-color-border-secondary);
+  border-color: var(--ant-color-border-secondary);
+  cursor: not-allowed;
+}
+
+.ant-btn-default {
+  color: var(--ant-color-text);
+  background: var(--ant-color-bg-elevated);
+  border-color: var(--ant-color-border);
+}
+
+.ant-btn-default:hover:not(:disabled) {
+  color: var(--ant-primary);
+  border-color: var(--ant-primary);
+}
+
+.ant-btn-text {
+  color: var(--ant-color-text-secondary);
+  background: transparent;
+  border: none;
+}
+
+.ant-btn-text:hover:not(:disabled) {
+  color: var(--ant-primary);
+}
+
+
+.ant-btn-icon {
+  padding: 4px 8px;
+}
+
+/* ========== Ant Design 输入框 ========== */
+.ant-input {
+  width: 70px;
+  padding: 4px 11px;
+  font-size: 14px;
+  font-family: var(--ant-font);
+  color: var(--ant-color-text);
+  background: var(--ant-color-bg-container);
+  border: 1px solid var(--ant-color-border);
+  border-radius: var(--ant-radius-sm);
+  outline: none;
+  transition: border-color .2s;
+}
+
+.ant-input:hover {
+  border-color: var(--ant-primary-hover);
+}
+
+.ant-input:focus {
+  border-color: var(--ant-primary);
+  box-shadow: 0 0 0 2px rgba(22, 119, 255, 0.2);
+}
+
+.preview-area .preview-canvas {
+  flex: 1;
+  min-height: 200px;
+}
+
+.preview-canvas {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: #000;
+  position: relative;
+}
+
+.video-preview-inner {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  min-width: 100%;
+  min-height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.preview-canvas video {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+.preview-canvas video:not(.hidden) {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.preview-canvas video.hidden {
+  display: none;
+}
+
+.preview-placeholder {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  color: var(--ant-color-text-tertiary);
+  font-size: 14px;
+  padding: 32px;
+  border: 2px dashed var(--ant-color-border);
+  border-radius: var(--ant-radius);
+  background: var(--ant-color-bg-elevated);
+  min-width: 200px;
+  min-height: 160px;
+}
+
+.preview-placeholder.hidden {
+  display: none !important;
+}
+
+.preview-placeholder-icon {
+  font-size: 56px;
+  opacity: 0.4;
+  color: var(--ant-color-text-tertiary);
+}
+
+.preview-controls {
+  height: 48px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--ant-color-bg-elevated);
+  border-top: 1px solid var(--ant-color-border-secondary);
+}
+
+.preview-time {
+  font-size: 12px;
+  color: var(--ant-color-text-secondary);
+  min-width: 90px;
+}
+
+.preview-controls-right {
+  margin-left: auto;
+}
+
+/* ========== 右侧：时间轴 + 截取功能 ========== */
+.right-panel {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--ant-color-bg-container);
+}
+
+.timeline-section {
+  flex-shrink: 0;
+  padding: 16px 20px;
+  background: var(--ant-color-bg-elevated);
+  border-bottom: 1px solid var(--ant-color-border-secondary);
+}
+
+.timeline-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 12px;
+  color: var(--ant-color-text-secondary);
+}
+
+.timeline-range {
+  color: var(--ant-color-text-tertiary);
+}
+
+.timeline-hint {
+  color: var(--ant-primary);
+  font-size: 12px;
+}
+
+.timeline-zoom {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.timeline-zoom-slider {
+  flex: 1;
+  min-width: 80px;
+  max-width: 120px;
+}
+
+.timeline-zoom-track {
+  position: relative;
+  height: 6px;
+  background: var(--ant-color-border-secondary);
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.timeline-zoom-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(255,255,255,0.25);
+  border-radius: 3px 0 0 3px;
+  pointer-events: none;
+}
+
+.timeline-zoom-knob {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 12px;
+  background: #fff;
+  border-radius: 3px;
+  cursor: grab;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  pointer-events: none;
+}
+
+.timeline-zoom-slider.dragging .timeline-zoom-knob {
+  cursor: grabbing;
+}
+
+.timeline-zoom-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid var(--ant-color-border);
+  background: var(--ant-color-bg-container);
+  color: var(--ant-color-text);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: border-color .2s, color .2s;
+}
+
+.timeline-zoom-btn:hover {
+  border-color: var(--ant-primary);
+  color: var(--ant-primary);
+}
+
+.timeline-anchor-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.timeline-ruler {
+  height: 40px;
+  margin-bottom: 4px;
+  background: var(--ant-color-bg-container);
+  border: 1px solid var(--ant-color-border);
+  border-radius: var(--ant-radius-sm) var(--ant-radius-sm) 0 0;
+  cursor: pointer;
+}
+
+.timeline-scale-wrap {
+  height: 20px;
+  margin-bottom: 4px;
+  background: var(--ant-color-bg-container);
+  border: 1px solid var(--ant-color-border);
+  border-top: none;
+  border-radius: 0;
+  overflow: hidden;
+}
+
+.timeline-scale-canvas {
+  display: block;
+  width: 100%;
+  height: 20px;
+}
+
+.timeline-wrap {
+  position: relative;
+  height: 72px;
+  background: var(--ant-color-bg-container);
+  border: 1px solid var(--ant-color-border);
+  border-top: none;
+  border-radius: 0 0 var(--ant-radius-sm) var(--ant-radius-sm);
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.preview-area-spaced {
+  margin-top: 24px;
+}
+
+#timelineCanvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.playhead {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 2px;
+  background: #fff;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.2);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ========== 片段列表区域（主功能区，右侧留足间距） ========== */
+.segments-section {
+  flex: 1;
+  min-height: 180px;
+  padding: 16px 20px 20px;
+  background: var(--ant-color-bg-layout);
+  overflow: auto;
+}
+
+.segment-list {
+  list-style: none;
+  margin: 0 0 12px 0;
+  padding: 0;
+}
+
+.segment-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: var(--ant-color-bg-elevated);
+  border: 1px solid var(--ant-color-border-secondary);
+  border-radius: var(--ant-radius-sm);
+  margin-bottom: 8px;
+  font-size: 13px;
+  color: var(--ant-color-text-secondary);
+}
+
+.segment-list li button {
+  padding: 2px 8px;
+  font-size: 12px;
+  color: #fff;
+  background: #ff4d4f;
+  border: none;
+  border-radius: var(--ant-radius-sm);
+  cursor: pointer;
+}
+
+.segment-list li button:hover {
+  background: #ff7875;
+}
+
+.process-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+  padding-right: 0;
+}
+
+.progress-wrap {
+  font-size: 13px;
+  color: var(--ant-color-text-secondary);
+}
+
+.progress-wrap.hidden {
+  display: none !important;
+}
+
+/* 人物面板 */
+.person-preview {
+  margin: 12px 20px;
+  border-radius: var(--ant-radius-sm);
+  overflow: hidden;
+  background: var(--ant-color-bg-layout);
+  border: 1px solid var(--ant-color-border-secondary);
+}
+
+.person-preview.hidden {
+  display: none !important;
+}
+
+.person-image {
+  width: 100%;
+  display: block;
+  max-height: 200px;
+  object-fit: contain;
+  background: #000;
+}
+
+.person-name {
+  padding: 8px;
+  font-size: 12px;
+  color: var(--ant-color-text-secondary);
+  word-break: break-all;
+}
+
+#panelPerson .ant-btn-block {
+  margin: 12px 20px 0;
+}
+
+#panelPerson .sidebar-panel-title,
+#panelPerson .sidebar-caption {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+/* 设置面板 */
+.settings-label {
+  display: block;
+  font-size: 12px;
+  color: var(--ant-color-text-secondary);
+  margin: 12px 20px 4px;
+}
+
+.settings-input {
+  width: calc(100% - 40px) !important;
+  margin: 0 20px;
+  max-width: none;
+}
+
+#panelSettings .ant-btn-block {
+  margin: 16px 20px 12px;
+}
+
+#panelSettings .sidebar-panel-title,
+#panelSettings .sidebar-caption {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.hidden {
+  display: none !important;
+}
