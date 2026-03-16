@@ -114,7 +114,7 @@ async function uploadFileToOss(apiKey, filePath, originalFilename) {
   return ossUrl;
 }
 
-async function createVideoSynthesisTask(apiKey, imageUrl, videoUrl) {
+async function createVideoSynthesisTask(apiKey, imageUrl, videoUrl, mode = 'wan-std') {
   const url = `${DASHSCOPE_BASE}/api/v1/services/aigc/image2video/video-synthesis`;
   console.log('[process] 正在创建 video-synthesis 任务...');
   const ctrl = new AbortController();
@@ -136,7 +136,7 @@ async function createVideoSynthesisTask(apiKey, imageUrl, videoUrl) {
           video_url: videoUrl,
           watermark: false,
         },
-        parameters: { mode: 'wan-std' },
+        parameters: { mode },
       }),
       signal: ctrl.signal,
     });

@@ -43,7 +43,7 @@ fi
 
 # 4. 启动服务
 echo
-echo "启动服务：node server.js"
+echo "启动服务：node src/server.js"
 echo
-node server.js
+node src/server.js
 

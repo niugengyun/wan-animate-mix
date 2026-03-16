@@ -2,12 +2,13 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+
 const {
   uploadFileToOss,
   createVideoSynthesisTask,
   pollTaskResult,
   downloadToFile,
-} = require('./src/bailianService');
+} = require('./bailianService');
 const {
   getMergedDuration,
   runFfmpegMerge,
@@ -17,13 +18,14 @@ const {
   getVideoDuration,
   runFfmpegReplace,
   runFfmpegReplaceNoAudio,
-} = require('./src/ffmpegService');
+} = require('./ffmpegService');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-const uploadDir = path.join(__dirname, 'uploads');
-const outputDir = path.join(__dirname, 'output');
+const ROOT_DIR = path.join(__dirname, '..');
+const uploadDir = path.join(ROOT_DIR, 'uploads');
+const outputDir = path.join(ROOT_DIR, 'output');
 if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
 if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir, { recursive: true });
 
@@ -73,6 +75,8 @@ app.post('/api/process', upload.single('video'), async (req, res) => {
   const file = req.file;
   const apiKey = (req.body && req.body.apiKey) ? req.body.apiKey.trim() : '';
   const personOssUrl = (req.body && req.body.personOssUrl) ? req.body.personOssUrl.trim() : '';
+  const modeRaw = req.body && req.body.mode ? String(req.body.mode).trim() : '';
+  const mode = modeRaw === 'wan-pro' ? 'wan-pro' : 'wan-std';
   let segments = [];
   let duration = 0;
   try {
@@ -126,7 +130,7 @@ app.post('/api/process', upload.single('video'), async (req, res) => {
     console.log('[process] 合并视频上传至临时存储...');
     const videoOssUrl = await uploadFileToOss(apiKey, mergedPath, `merged-${ts}.mp4`);
     console.log('[process] 合并视频临时地址 videoOssUrl=', videoOssUrl, '人物图 personOssUrl=', personOssUrl);
-    const taskId = await createVideoSynthesisTask(apiKey, personOssUrl, videoOssUrl);
+    const taskId = await createVideoSynthesisTask(apiKey, personOssUrl, videoOssUrl, mode);
     const resultVideoUrl = await pollTaskResult(apiKey, taskId);
     console.log('[process] 下载合成结果视频...');
     await downloadToFile(resultVideoUrl, resultPath);
@@ -199,11 +203,20 @@ app.post('/api/process', upload.single('video'), async (req, res) => {
   }
 });
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(ROOT_DIR, 'public')));
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  res.sendFile(path.join(ROOT_DIR, 'public', 'index.html'));
 });
 
-app.listen(PORT, () => {
-  console.log('人物替换工具已启动: http://localhost:' + PORT);
-});
+function startServer() {
+  app.listen(PORT, () => {
+    console.log('人物替换工具已启动: http://localhost:' + PORT);
+  });
+}
+
+module.exports = { app, startServer };
+
+if (require.main === module) {
+  startServer();
+}
+

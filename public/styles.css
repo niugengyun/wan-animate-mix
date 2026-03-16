@@ -687,6 +687,54 @@ body {
   max-width: none;
 }
 
+.settings-mode-note {
+  padding: 0 20px 8px;
+  font-size: 12px;
+  color: var(--ant-color-text-secondary);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+}
+
+.settings-mode-note label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.settings-mode-note input[type="radio"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  margin: 0;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 1px solid var(--ant-color-border);
+  background: var(--ant-color-bg-container);
+  position: relative;
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+.settings-mode-note input[type="radio"]:checked {
+  border-color: var(--ant-primary);
+}
+
+.settings-mode-note input[type="radio"]:checked::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  margin-left: -4px;
+  margin-top: -4px;
+  border-radius: 50%;
+  background: var(--ant-primary);
+}
+
 #panelSettings .ant-btn-block {
   margin: 16px 20px 12px;
 }

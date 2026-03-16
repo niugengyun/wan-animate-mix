@@ -31,6 +31,8 @@ const personImage = document.getElementById('personImage');
 const personUploadStatus = document.getElementById('personUploadStatus');
 const inputAppkey = document.getElementById('inputAppkey');
 const btnSaveAppkey = document.getElementById('btnSaveAppkey');
+const modeStd = document.getElementById('modeStd');
+const modePro = document.getElementById('modePro');
 const btnZoomOut = document.getElementById('btnZoomOut');
 const btnZoomIn = document.getElementById('btnZoomIn');
 const zoomSlider = document.getElementById('zoomSlider');
@@ -873,6 +875,22 @@ if (btnSaveAppkey && inputAppkey) {
 }
 if (inputAppkey) inputAppkey.value = localStorage.getItem(STORAGE_APPKEY) || '';
 
+const STORAGE_MODE = 'bailian_mode';
+if (modeStd && modePro) {
+  const savedMode = localStorage.getItem(STORAGE_MODE) || 'wan-std';
+  if (savedMode === 'wan-pro') {
+    modePro.checked = true;
+  } else {
+    modeStd.checked = true;
+  }
+  const saveMode = () => {
+    const value = modePro.checked ? 'wan-pro' : 'wan-std';
+    localStorage.setItem(STORAGE_MODE, value);
+  };
+  modeStd.addEventListener('change', saveMode);
+  modePro.addEventListener('change', saveMode);
+}
+
 if (btnMute) {
   btnMute.addEventListener('click', () => {
     video.muted = !video.muted;
@@ -923,6 +941,10 @@ btnProcess.addEventListener('click', async () => {
   form.append('duration', String(duration));
   form.append('personOssUrl', personOssUrl);
   form.append('apiKey', apiKey);
+  if (modeStd && modePro) {
+    const value = modePro.checked ? 'wan-pro' : 'wan-std';
+    form.append('mode', value);
+  }
 
   try {
     const res = await fetch('/api/process', { method: 'POST', body: form });

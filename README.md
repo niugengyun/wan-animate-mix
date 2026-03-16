@@ -28,7 +28,7 @@
    ```
 3. 安装成功后执行：
    ```bat
-   node server.js
+   node src/server.js
    ```
 
 之后再次双击 `start.cmd`，如果已存在 `node_modules`，会直接启动服务。
@@ -61,7 +61,7 @@ chmod +x start.sh
 
 ```bash
 npm install
-node server.js
+node src/server.js
 ```
 
 然后在浏览器访问：

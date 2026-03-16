@@ -59,18 +59,32 @@
         </div>
       </div>
 
-      <div id="panelSettings" class="sidebar-panel hidden">
-        <div class="sidebar-panel-title">阿里云百炼</div>
-        <div class="sidebar-caption">设置 API Key，用于调用百炼服务</div>
-        <div class="settings-appkey-link">
-          <a href="https://bailian.console.aliyun.com/cn-beijing/?spm=a2c4g.11186623.0.0.10304accW2LPmw&tab=model#/api-key" target="_blank" rel="noopener noreferrer">获取 API Key</a>
-          <span class="settings-link-sep">|</span>
-          <a href="https://billing-cost.console.aliyun.com/home" target="_blank" rel="noopener noreferrer">账户充值</a>
+        <div id="panelSettings" class="sidebar-panel hidden">
+          <div class="sidebar-panel-title">阿里云百炼</div>
+          <div class="sidebar-caption">设置 API Key，用于调用百炼服务</div>
+          <div class="settings-appkey-link">
+            <a href="https://bailian.console.aliyun.com/cn-beijing/?spm=a2c4g.11186623.0.0.10304accW2LPmw&tab=model#/api-key" target="_blank" rel="noopener noreferrer">获取 API Key</a>
+            <span class="settings-link-sep">|</span>
+            <a href="https://billing-cost.console.aliyun.com/home" target="_blank" rel="noopener noreferrer">账户充值</a>
+            <span class="settings-link-sep">|</span>
+            <a href="https://bailian.console.aliyun.com/cn-beijing/?tab=doc#/doc/?type=model&url=2987148" target="_blank" rel="noopener noreferrer">计费标准</a>
+          </div>
+          <label class="settings-label">API Key</label>
+          <input type="password" class="ant-input settings-input" id="inputAppkey" placeholder="请输入阿里云百炼 API Key" autocomplete="off" />
+
+          <label class="settings-label">输出视频模式</label>
+          <div class="settings-mode-note">
+            <label>
+              <input type="radio" name="outputMode" value="wan-std" id="modeStd" />
+              标准模式（wan-std）
+            </label>
+            <label>
+              <input type="radio" name="outputMode" value="wan-pro" id="modePro" />
+              专业模式（wan-pro）
+            </label>
+          </div>
+          <button type="button" class="ant-btn ant-btn-primary ant-btn-block" id="btnSaveAppkey">保存</button>
         </div>
-        <label class="settings-label">API Key</label>
-        <input type="password" class="ant-input settings-input" id="inputAppkey" placeholder="请输入阿里云百炼 API Key" autocomplete="off" />
-        <button type="button" class="ant-btn ant-btn-primary ant-btn-block" id="btnSaveAppkey">保存</button>
-      </div>
     </aside>
 
     <main class="right-panel">
