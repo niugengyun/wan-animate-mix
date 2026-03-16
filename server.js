@@ -658,7 +658,6 @@ app.post('/api/process', upload.single('video'), async (req, res) => {
   const file = req.file;
   const apiKey = (req.body && req.body.apiKey) ? req.body.apiKey.trim() : '';
   const personOssUrl = (req.body && req.body.personOssUrl) ? req.body.personOssUrl.trim() : '';
-  const testMode = req.body && (req.body.testMode === 'true' || req.body.testMode === true);
   let segments = [];
   let duration = 0;
   try {
@@ -672,7 +671,7 @@ app.post('/api/process', upload.single('video'), async (req, res) => {
     if (file) fs.unlink(file.path, () => {});
     return res.status(400).json({ ok: false, error: '缺少视频或片段信息' });
   }
-  if (!testMode && (!apiKey || !personOssUrl)) {
+  if (!apiKey || !personOssUrl) {
     fs.unlink(file.path, () => {});
     return res.status(400).json({ ok: false, error: '请先上传人物图并设置 API Key' });
   }
@@ -709,27 +708,21 @@ app.post('/api/process', upload.single('video'), async (req, res) => {
       return res.status(500).json({ ok: false, error: mergeResult.error || '合并片段失败' });
     }
 
-    if (testMode) {
-      console.log('[process] 测试模式：跳过调用 API，使用合并后的视频作为结果进行切分与替换');
-    } else {
-      console.log('[process] 合并视频上传至临时存储...');
-      const videoOssUrl = await uploadFileToOss(apiKey, mergedPath, `merged-${ts}.mp4`);
-      console.log('[process] 合并视频临时地址 videoOssUrl=', videoOssUrl, '人物图 personOssUrl=', personOssUrl);
-      const taskId = await createVideoSynthesisTask(apiKey, personOssUrl, videoOssUrl);
-      const resultVideoUrl = await pollTaskResult(apiKey, taskId);
-      console.log('[process] 下载合成结果视频...');
-      await downloadToFile(resultVideoUrl, resultPath);
-    }
+    console.log('[process] 合并视频上传至临时存储...');
+    const videoOssUrl = await uploadFileToOss(apiKey, mergedPath, `merged-${ts}.mp4`);
+    console.log('[process] 合并视频临时地址 videoOssUrl=', videoOssUrl, '人物图 personOssUrl=', personOssUrl);
+    const taskId = await createVideoSynthesisTask(apiKey, personOssUrl, videoOssUrl);
+    const resultVideoUrl = await pollTaskResult(apiKey, taskId);
+    console.log('[process] 下载合成结果视频...');
+    await downloadToFile(resultVideoUrl, resultPath);
 
-    let pathToSplit = testMode ? mergedPath : resultPath;
-    if (!testMode) {
-      const normalizedPath = path.join(outputDir, `normalized-${ts}.mp4`);
-      const okNorm = await normalizeResultVideo(resultPath, normalizedPath);
-      if (okNorm) {
-        pathToSplit = normalizedPath;
-      } else {
-        console.log('[process] 规范化失败，回退使用原始合成结果视频进行切分');
-      }
+    let pathToSplit = resultPath;
+    const normalizedPath = path.join(outputDir, `normalized-${ts}.mp4`);
+    const okNorm = await normalizeResultVideo(resultPath, normalizedPath);
+    if (okNorm) {
+      pathToSplit = normalizedPath;
+    } else {
+      console.log('[process] 规范化失败，回退使用原始合成结果视频进行切分');
     }
     console.log('[process] 检查合成结果是否含视频流 path=', pathToSplit);
     const resultHasVideo = await probeHasVideo(pathToSplit, '合成结果');

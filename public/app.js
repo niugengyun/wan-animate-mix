@@ -14,7 +14,6 @@ const inputEnd = document.getElementById('inputEnd');
 const btnAddSegment = document.getElementById('btnAddSegment');
 const segmentList = document.getElementById('segmentList');
 const btnProcess = document.getElementById('btnProcess');
-const btnTest = document.getElementById('btnTest');
 const progressWrap = document.getElementById('progressWrap');
 const progressText = document.getElementById('progressText');
 const timelineHint = document.getElementById('timelineHint');
@@ -861,7 +860,6 @@ function renderSegmentList() {
   }
   const durationOk = mergedDur > 2 && mergedDur < 30;
   btnProcess.disabled = !currentFile || !currentPersonFile || !personOssUrl || segments.length === 0 || !durationOk;
-  if (btnTest) btnTest.disabled = !currentFile || segments.length === 0 || !durationOk;
 }
 
 function getFriendlyProcessErrorMessage(raw) {
@@ -1068,64 +1066,7 @@ if (previewModalBtnDownload) {
   });
 }
 
-if (btnTest) {
-  btnTest.addEventListener('click', async () => {
-    if (!currentFile || segments.length === 0) return;
-    const mergedDur = getMergedDuration(segments);
-    if (mergedDur <= 2 || mergedDur >= 30) {
-      showAntAlert('合并片段总时长需大于 2 秒且小于 30 秒，当前为 ' + mergedDur.toFixed(1) + ' 秒', '提示');
-      return;
-    }
-    const ok = await showAntConfirm({
-      title: '确认',
-      content: '测试模式：不调用 API，仅将片段合并→按时长切分→替换回原视频。是否继续？',
-      confirmText: '确定',
-      cancelText: '取消',
-    });
-    if (!ok) return;
-
-    progressWrap.classList.remove('hidden');
-    progressText.textContent = '测试中…';
-    btnTest.disabled = true;
-    btnProcess.disabled = true;
-
-    const apiKey = (localStorage.getItem(STORAGE_APPKEY) || '').trim();
-    const form = new FormData();
-    form.append('video', currentFile);
-    form.append('segments', JSON.stringify(segments));
-    form.append('duration', String(duration));
-    form.append('personOssUrl', personOssUrl || '');
-    form.append('apiKey', apiKey || '');
-    form.append('testMode', 'true');
-
-    try {
-      const ctrl = new AbortController();
-      const timeoutId = setTimeout(() => ctrl.abort(), 120000);
-      const res = await fetch('/api/process', { method: 'POST', body: form, signal: ctrl.signal });
-      clearTimeout(timeoutId);
-      if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        throw new Error(data.error || '测试失败');
-      }
-      const blob = await res.blob();
-      const disp = res.headers.get('content-disposition') || '';
-      const match = disp.match(/filename\*?=(?:UTF-8'')?["']?([^"';]+)["']?/i) || disp.match(/filename=["']?([^"';]+)/i);
-      const name = (match && match[1] && match[1].trim()) ? match[1].trim() : 'replaced-' + currentFile.name;
-      progressText.textContent = '测试完成';
-      showPreviewModal(blob, name || 'replaced.mp4');
-    } catch (err) {
-      progressText.textContent = '';
-      if (err.name === 'AbortError') {
-        showAntAlert('测试失败：请求超时（120秒），请稍后重试。', '提示');
-      } else {
-        showAntAlert(getFriendlyProcessErrorMessage(err.message), '提示');
-      }
-    } finally {
-      progressWrap.classList.add('hidden');
-      renderSegmentList();
-    }
-  });
-}
+// 测试按钮逻辑已移除，仅保留正式处理流程
 
 window.addEventListener('resize', resizeCanvas);
 resizeCanvas();
