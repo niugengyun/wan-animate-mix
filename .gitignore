@@ -11,3 +11,6 @@ replaced-*.mp4
 normalized-*.mp4
 repl-*/
 
+# 本地 Electron 渲染目录（已弃用）
+/renderer/
+
