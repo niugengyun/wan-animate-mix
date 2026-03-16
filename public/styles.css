@@ -98,6 +98,36 @@ body {
   display: none !important;
 }
 
+.sidebar-media-panel {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.media-video-section {
+  flex: 2;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.media-person-section {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-top: 1px solid var(--ant-color-border-secondary);
+}
+
+.media-person-section .person-upload-area {
+  flex: 1;
+  min-height: 80px;
+}
+
 .sidebar-panel-title {
   font-size: 14px;
   font-weight: 500;
@@ -160,6 +190,13 @@ body {
   background: var(--ant-color-bg-elevated);
   min-width: 180px;
   min-height: 140px;
+}
+
+.person-upload-status {
+  padding: 8px 16px;
+  font-size: 12px;
+  color: var(--ant-color-text-secondary);
+  min-height: 20px;
 }
 
 /* ========== Ant Design 按钮 ========== */
@@ -413,8 +450,9 @@ body {
 
 .timeline-zoom-knob {
   position: absolute;
+  left: 0;
   top: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateY(-50%);
   width: 12px;
   height: 12px;
   background: #fff;
@@ -555,6 +593,11 @@ body {
   background: #ff7875;
 }
 
+.segment-list li.segment-total {
+  font-weight: 500;
+  color: var(--ant-color-text);
+}
+
 .process-row {
   display: flex;
   align-items: center;
@@ -611,6 +654,26 @@ body {
 }
 
 /* 设置面板 */
+.settings-appkey-link {
+  padding: 0 20px 8px;
+  font-size: 12px;
+}
+
+.settings-appkey-link a {
+  color: var(--ant-primary);
+  text-decoration: none;
+}
+
+.settings-appkey-link a:hover {
+  color: var(--ant-primary-hover);
+  text-decoration: underline;
+}
+
+.settings-appkey-link .settings-link-sep {
+  margin: 0 6px;
+  color: var(--ant-color-text-tertiary);
+}
+
 .settings-label {
   display: block;
   font-size: 12px;
@@ -636,4 +699,111 @@ body {
 
 .hidden {
   display: none !important;
+}
+
+/* 预览弹框 Ant 风格 */
+.ant-modal-wrap {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.ant-modal-wrap-hidden {
+  display: none !important;
+}
+
+.ant-modal-mask {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.ant-modal-root {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.ant-modal-content {
+  background: var(--ant-color-bg-elevated);
+  border-radius: var(--ant-radius);
+  box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.32);
+  border: 1px solid var(--ant-color-border-secondary);
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh;
+}
+
+.ant-dialog-wrap .ant-modal-mask {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.ant-dialog-content {
+  background: var(--ant-color-bg-elevated);
+  border-radius: var(--ant-radius);
+  box-shadow: 0 12px 24px 0 rgba(0, 0, 0, 0.45), 0 0 1px 0 rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--ant-color-border);
+}
+
+.ant-dialog-body {
+  padding: 16px 24px;
+}
+
+.ant-dialog-message {
+  font-size: 14px;
+  color: var(--ant-color-text);
+  line-height: 1.6;
+}
+
+.ant-dialog-footer {
+  padding: 10px 16px;
+}
+
+.ant-modal-content.ant-dialog-content {
+  box-shadow: 0 12px 24px 0 rgba(0, 0, 0, 0.45), 0 0 1px 0 rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--ant-color-border);
+}
+
+.ant-modal-header {
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--ant-color-border-secondary);
+  flex-shrink: 0;
+}
+
+.ant-modal-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--ant-color-text);
+}
+
+.ant-modal-body {
+  padding: 24px;
+  overflow: auto;
+  flex: 1;
+  min-height: 0;
+}
+
+.preview-modal-video {
+  width: 100%;
+  max-width: 720px;
+  max-height: 70vh;
+  display: block;
+  background: #000;
+  border-radius: var(--ant-radius-sm);
+}
+
+.ant-modal-footer {
+  padding: 10px 16px;
+  border-top: 1px solid var(--ant-color-border-secondary);
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  flex-shrink: 0;
 }

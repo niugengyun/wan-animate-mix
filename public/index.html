@@ -3,20 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>视频片段镜像工具</title>
+  <title>视频人物替换</title>
+  <link rel="icon" type="image/svg+xml" href="https://img.alicdn.com/imgextra/i2/O1CN01TFs5Qw27uYvfA6gib_!!6000000007857-55-tps-32-32.svg" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <div class="app">
     <aside class="left-panel">
       <div class="sidebar-tabs">
-        <button type="button" class="sidebar-tab active" data-tab="video" id="tabVideo">
+        <button type="button" class="sidebar-tab active" data-tab="media" id="tabMedia">
           <span class="sidebar-tab-icon">🎬</span>
-          <span>视频</span>
-        </button>
-        <button type="button" class="sidebar-tab" data-tab="person" id="tabPerson">
-          <span class="sidebar-tab-icon">👤</span>
-          <span>人物</span>
+          <span>素材</span>
         </button>
         <button type="button" class="sidebar-tab" data-tab="settings" id="tabSettings">
           <span class="sidebar-tab-icon">⚙</span>
@@ -24,45 +21,54 @@
         </button>
       </div>
 
-      <div id="panelVideo" class="sidebar-panel">
+      <div id="panelMedia" class="sidebar-panel">
         <input type="file" id="fileInput" accept="video/*" style="display: none" />
-        <div class="preview-area preview-area-spaced">
-          <div class="preview-canvas" id="videoDropZone">
-            <div class="video-preview-inner">
-              <video id="video" preload="metadata" class="hidden"></video>
-            </div>
-            <div id="previewPlaceholder" class="preview-placeholder">
-              <span class="preview-placeholder-icon">▶</span>
-              <span>点击上传视频</span>
-            </div>
-          </div>
-          <div class="preview-controls">
-            <span id="timeLabel" class="preview-time">0:00 / 0:00</span>
-            <div class="preview-controls-right">
-              <button type="button" class="ant-btn ant-btn-text ant-btn-icon" id="btnMute" title="静音">
-                <span id="volumeIcon">🔊</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div id="panelPerson" class="sidebar-panel hidden">
         <input type="file" id="filePerson" accept="image/*" style="display: none" />
-        <div class="person-upload-area" id="personDropZone">
-          <img id="personImage" class="person-image hidden" alt="人物" />
-          <div id="personPlaceholder" class="preview-placeholder">
-            <span class="preview-placeholder-icon">👤</span>
-            <span>点击上传人物正面图</span>
+        <div class="sidebar-media-panel">
+          <div class="media-video-section">
+            <div class="preview-area preview-area-spaced">
+              <div class="preview-canvas" id="videoDropZone">
+                <div class="video-preview-inner">
+                  <video id="video" preload="metadata" class="hidden"></video>
+                </div>
+                <div id="previewPlaceholder" class="preview-placeholder">
+                  <span class="preview-placeholder-icon">▶</span>
+                  <span>点击上传视频</span>
+                </div>
+              </div>
+              <div class="preview-controls">
+                <span id="timeLabel" class="preview-time">0:00 / 0:00</span>
+                <div class="preview-controls-right">
+                  <button type="button" class="ant-btn ant-btn-text ant-btn-icon" id="btnMute" title="静音">
+                    <span id="volumeIcon">🔊</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="media-person-section">
+            <div class="person-upload-area" id="personDropZone">
+              <img id="personImage" class="person-image hidden" alt="人物" />
+              <div id="personPlaceholder" class="preview-placeholder">
+                <span class="preview-placeholder-icon">👤</span>
+                <span>点击上传人物正面图</span>
+              </div>
+            </div>
+            <div class="person-upload-status" id="personUploadStatus"></div>
           </div>
         </div>
       </div>
 
       <div id="panelSettings" class="sidebar-panel hidden">
         <div class="sidebar-panel-title">阿里云百炼</div>
-        <div class="sidebar-caption">设置 APPKEY，用于调用百炼服务</div>
-        <label class="settings-label">APPKEY</label>
-        <input type="password" class="ant-input settings-input" id="inputAppkey" placeholder="请输入阿里云百炼 APPKEY" autocomplete="off" />
+        <div class="sidebar-caption">设置 API Key，用于调用百炼服务</div>
+        <div class="settings-appkey-link">
+          <a href="https://bailian.console.aliyun.com/cn-beijing/?spm=a2c4g.11186623.0.0.10304accW2LPmw&tab=model#/api-key" target="_blank" rel="noopener noreferrer">获取 API Key</a>
+          <span class="settings-link-sep">|</span>
+          <a href="https://billing-cost.console.aliyun.com/home" target="_blank" rel="noopener noreferrer">账户充值</a>
+        </div>
+        <label class="settings-label">API Key</label>
+        <input type="password" class="ant-input settings-input" id="inputAppkey" placeholder="请输入阿里云百炼 API Key" autocomplete="off" />
         <button type="button" class="ant-btn ant-btn-primary ant-btn-block" id="btnSaveAppkey">保存</button>
       </div>
     </aside>
@@ -98,13 +104,50 @@
       <section class="segments-section">
         <ul id="segmentList" class="segment-list"></ul>
         <div class="process-row">
-          <button type="button" class="ant-btn ant-btn-primary" id="btnProcess" disabled>执行镜像处理（下载结果）</button>
+          <button type="button" class="ant-btn ant-btn-primary" id="btnProcess" disabled>批量人物替换</button>
+          <button type="button" class="ant-btn ant-btn-default" id="btnTest" disabled title="不调用 API，仅做合并→切分→替换流程测试">测试</button>
           <div id="progressWrap" class="progress-wrap hidden">
             <span id="progressText">处理中，请稍候…</span>
           </div>
         </div>
       </section>
     </main>
+  </div>
+
+  <div id="antDialogModal" class="ant-modal-wrap ant-dialog-wrap ant-modal-wrap-hidden" aria-hidden="true">
+    <div class="ant-modal-mask"></div>
+    <div class="ant-modal-root ant-dialog-root" role="dialog">
+      <div class="ant-modal-content ant-dialog-content">
+        <div class="ant-modal-header">
+          <span class="ant-modal-title" id="antDialogTitle">提示</span>
+        </div>
+        <div class="ant-modal-body ant-dialog-body">
+          <div id="antDialogContent" class="ant-dialog-message"></div>
+        </div>
+        <div class="ant-modal-footer ant-dialog-footer">
+          <button type="button" class="ant-btn ant-btn-default" id="antDialogBtnCancel" style="display: none;">取消</button>
+          <button type="button" class="ant-btn ant-btn-primary" id="antDialogBtnOk">确定</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="previewModal" class="ant-modal-wrap ant-modal-wrap-hidden" aria-hidden="true">
+    <div class="ant-modal-mask"></div>
+    <div class="ant-modal-root" role="dialog">
+      <div class="ant-modal-content">
+        <div class="ant-modal-header">
+          <span class="ant-modal-title">预览</span>
+        </div>
+        <div class="ant-modal-body">
+          <video id="previewModalVideo" class="preview-modal-video" controls playsinline></video>
+        </div>
+        <div class="ant-modal-footer">
+          <button type="button" class="ant-btn ant-btn-default" id="previewModalBtnClose">关闭</button>
+          <button type="button" class="ant-btn ant-btn-primary" id="previewModalBtnDownload">下载</button>
+        </div>
+      </div>
+    </div>
   </div>
   <script src="app.js"></script>
 </body>

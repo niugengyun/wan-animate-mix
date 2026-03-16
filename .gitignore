@@ -2,3 +2,9 @@ node_modules/
 uploads/
 output/
 *.log
+.DS_Store
+
+node_modules/
+uploads/
+output/
+*.log
