@@ -4,7 +4,10 @@ output/
 *.log
 .DS_Store
 
-node_modules/
-uploads/
-output/
-*.log
+# 编译/处理临时文件
+merged-*.mp4
+result-*.mp4
+replaced-*.mp4
+normalized-*.mp4
+repl-*/
+
