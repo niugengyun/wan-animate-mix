@@ -7,7 +7,9 @@
 
 ## 二、运行环境
 
-- 已安装 **Node.js 16+**（推荐官方安装包）
+- 已安装 **Node.js 16+**（推荐官方安装包）  
+  - 当前开发环境使用的版本：**Node.js v25.8.1**  
+  - Node.js 官方下载地址：<https://nodejs.org/en/download>
 - 已安装 **ffmpeg** 且在系统 `PATH` 中可用
   - Windows 可用 `winget install Gyan.FFmpeg` 或 `choco install ffmpeg`
   - Linux/macOS 可用发行版包管理器安装（如 `apt install ffmpeg`、`brew install ffmpeg`）
